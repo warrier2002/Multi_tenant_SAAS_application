@@ -7,12 +7,8 @@
 name: Deploy — Build & Ship
 
 on:
-  push:
-    branches: [main]
-  workflow_run:
-    workflows: ["CI — Lint & Test"]
-    types: [completed]
-    branches: [main]
+  workflow_dispatch:  # Manual trigger only, since deployment targets/secrets are not configured yet
+
 
 # Only run if CI passed (when triggered via workflow_run)
 jobs:

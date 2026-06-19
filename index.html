@@ -436,10 +436,15 @@
             ]
         };
 
-        // ─── Security Helpers ──────────────────────────────────────────────────
         function getApiUrl() {
-            return window.location.port === '5000' ? '' : 'http://localhost:3001';
+            // Local dev environment check
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                return window.location.port === '5000' ? '' : 'http://localhost:3001';
+            }
+            // Replace with your actual production backend Render URL
+            return 'https://crm-backend.onrender.com';
         }
+
 
         function authHeaders() {
             const h = { 'Content-Type': 'application/json' };

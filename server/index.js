@@ -15,7 +15,16 @@ const SALT_ROUNDS = 10;
 
 // ─── Middlewares ─────────────────────────────────────────────────────────────
 // Restrict CORS to known origins in production
-const allowedOrigins = ['http://localhost:5000', 'http://localhost:3001', 'http://127.0.0.1:5000'];
+const allowedOrigins = [
+  'http://localhost:5000',
+  'http://localhost:3001',
+  'http://127.0.0.1:5000',
+  // Production frontend URLs (replace with your actual hosted URLs)
+  'https://your-crm-frontend.vercel.app',
+  'https://your-crm-frontend.onrender.com',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
   origin: (origin, cb) => {
     // Allow requests with no origin (e.g., curl, Postman) in dev
@@ -77,7 +86,11 @@ const dbConfig = {
   port:     5432,
 };
 
-const pool = new Pool(dbConfig);
+// Use DATABASE_URL for Render PostgreSQL (with SSL) if present, otherwise fallback to local config
+const pool = process.env.DATABASE_URL
+  ? new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } })
+  : new Pool(dbConfig);
+
 
 // Fallback in-memory mock DB
 let mockUsers = [];
