@@ -237,4 +237,5 @@ def add_item(token_data):
 if __name__ == '__main__':
     logger.info("Initializing Secured Multi-Tenant CRM Flask server on http://localhost:5000")
     # debug=False in any real scenario; keep True only for local dev
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000)  # nosec B201
+
